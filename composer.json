@@ -1,12 +1,10 @@
 {
     "name": "laravel/laravel",
-    "type": "starter-kit",
-    "description": "Josh - Laravel Admin Template with GUI crud builder - starter kit.",
+    "type": "laravel",
+    "description": "Laravel Admin Dashboard",
     "keywords": [
-        "GUI crud",
         "laravel",
-        "dashboard",
-        "admin template"
+        "dashboard"
     ],
     "license": "MIT",
     "repositories": [
