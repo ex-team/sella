@@ -188,4 +188,13 @@ class PerangkatController extends InfyOmBaseController
        {
            return Excel::download(new PerangkatExport, 'daftar-perangkat.xlsx');
        }
+
+
+    public function exportPDF(){
+        $perangkats = Perangkat::get();
+        $pdf = PDF::loadView('perangkats.dataperangkat', compact('perangkats'));
+
+        // return $pdf->stream('download-data-perangkat.pdf',  array("Attachment" => false));
+        return view('perangkats.dataperangkat', compact('perangkats'));
+    }
 }

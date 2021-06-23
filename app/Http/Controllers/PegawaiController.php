@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use PDF;
 
 class PegawaiController extends InfyOmBaseController
 {
@@ -172,48 +173,58 @@ class PegawaiController extends InfyOmBaseController
      *
      * @return Response
      */
-      public function getModalDelete($id = null)
-      {
-          $error = '';
-          $model = '';
-          $confirm_route =  route('pegawais.delete',['id'=>$id]);
-          return View('admin.layouts/modal_confirmation', compact('error','model', 'confirm_route'));
+    public function getModalDelete($id = null)
+    {
+        $error = '';
+        $model = '';
+        $confirm_route =  route('pegawais.delete',['id'=>$id]);
+        return View('admin.layouts/modal_confirmation', compact('error','model', 'confirm_route'));
 
-      }
+    }
 
-       public function getDelete($id = null)
-       {
-           $sample = Pegawai::destroy($id);
+    public function getDelete($id = null)
+    {
+        $sample = Pegawai::destroy($id);
 
-           // Redirect to the group management page
-           return redirect(route('pegawais.index'))->with('success', Lang::get('message.success.delete'));
+        // Redirect to the group management page
+        return redirect(route('pegawais.index'))->with('success', Lang::get('message.success.delete'));
 
-       }
+    }
 
-       public function downloadExcel($type)
-       {
-           return response()->download(base_path('resources/excel-templates/template-pegawai.xlsx'));
-       }
+    public function downloadExcel($type)
+    {
+        return response()->download(base_path('resources/excel-templates/template-pegawai.xlsx'));
+    }
 
-       public function importPegawai(Request $request)
-       {
-           $this->validate($request, [
+    public function importPegawai(Request $request)
+    {
+        $this->validate($request, [
                'import_file' => 'required|mimes:xls,xlsx'
-           ]);
+        ]);
 
-           if ($request->hasFile('import_file')) {
+        if ($request->hasFile('import_file')) {
                $path = $request->file('import_file')->getRealPath();
                Excel::import(new PegawaiImport, request()->file('import_file'));
 
                return back()->with('success', 'Inserted Data Pegawai Successfully');
 
-           }
-           return back()->with('error', 'Please Check your file, Something is wrong there.');
-       }
+        }
+        return back()->with('error', 'Please Check your file, Something is wrong there.');
+    }
 
-       public function exportPegawai()
-       {
-           return Excel::download(new PegawaiExport, 'daftar-pegawai.xlsx');
-       }
+    public function exportPegawai()
+    {
+        return Excel::download(new PegawaiExport, 'daftar-pegawai.xlsx');
+    }
+
+
+    public function exportPDF(Request $request){
+
+        $pegawais = Pegawai::get();
+        $pdf = PDF::loadView('pegawais.datapegawai', compact('pegawais'));
+
+        // return $pdf->stream('download-data-pegawai.pdf',  array("Attachment" => false));
+        return view('pegawais.datapegawai', compact('pegawais'));
+    }
 
 }

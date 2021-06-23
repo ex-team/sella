@@ -82,6 +82,7 @@ Route::group(['middleware' => 'admin'], function () {
         // import & export data pegawai
         Route::post('pegawais/file-import', 'PegawaiController@importPegawai')->name('pegawais.import');
         Route::get('pegawais/file-export', 'PegawaiController@exportPegawai')->name('pegawais.export');
+        Route::get('pegawais/pdf-export', 'PegawaiController@exportPDF')->name('pegawais.pdf');
         Route::get('pegawais/download/{type}', 'PegawaiController@downloadExcel')->name('pegawais.template');
 
 
@@ -99,6 +100,7 @@ Route::group(['middleware' => 'admin'], function () {
         // import & export data perangkat
         Route::post('perangkats/file-import', 'PerangkatController@importPerangkat')->name('perangkats.import');
         Route::get('perangkats/file-export', 'PerangkatController@exportPerangkat')->name('perangkats.export');
+        Route::get('perangkats/pdf-export', 'PerangkatController@exportPDF')->name('perangkats.pdf');
         Route::get('perangkats/download/{type}', 'PerangkatController@downloadExcel')->name('perangkats.template');
 
 

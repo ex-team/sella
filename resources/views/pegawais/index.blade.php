@@ -31,6 +31,7 @@ Pegawais
                 </h4>
                 <div class="float-right">
                     <a style="margin: 0 10px" href="{{ route('pegawais.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus fa-fw"></i> @lang('button.create')</a>
+                    <a style="margin: 0 10px" href="{{ route('pegawais.pdf') }}" class="btn btn-sm btn-warning"><i class="fa fa-plus fa-fw"></i> Export PDF</a>
                     <a style="margin: 0 10px" href="#" class="float-right btn btn-sm btn-success" data-toggle="modal" data-target="#data_confirm">
                         <i class="fa fa-plus fa-fw"></i>Bulk Import/Export</a>
                 </div>
