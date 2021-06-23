@@ -28,7 +28,7 @@ Pegawais
                         </h4></div>
                     <br />
                 <div class="card-body">
-                {!! Form::model($pegawai, ['route' => ['pegawais.update', collect($pegawai)->first() ], 'method' => 'patch']) !!}
+                {!! Form::model($pegawai, ['route' => ['pegawais.update', collect($pegawai)->first() ], 'method' => 'patch', 'enctype'=>'multipart/form-data','files'=> true]) !!}
 
                 @include('pegawais.fields')
 

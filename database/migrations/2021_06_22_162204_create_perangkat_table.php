@@ -15,7 +15,7 @@ class CreatePerangkatTable extends Migration
     {
         Schema::create('perangkat', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_perangkat')->nullable();
+            $table->bigInteger('id_perangkat')->nullable();
             $table->string('uraian_perangkat')->nullable();
             $table->integer('stok_perangkat')->nullable();
             $table->date('tahun_pengadaan_perangkat')->nullable();

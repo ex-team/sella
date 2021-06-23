@@ -10,11 +10,11 @@ class Peminjaman extends Model
 {
 
     public $table = 'peminjaman';
-    
+
 
 
     public $fillable = [
-        'id_perangkat',
+        'perangkat_id',
         'tgl_peminjaman',
         'tgl_pengembalian',
         'keperluan'
@@ -35,7 +35,7 @@ class Peminjaman extends Model
      * @var array
      */
     public static $rules = [
-        'id_perangkat' => 'required|integer',
+        'perangkat_id' => 'required|integer',
         'tgl_peminjaman' => 'required|date',
         'tgl_pengembalian' => 'required|date'
     ];

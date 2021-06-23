@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PegawaiExport;
 use App\Http\Requests;
 use App\Http\Requests\CreatePegawaiRequest;
 use App\Http\Requests\UpdatePegawaiRequest;
 use App\Repositories\PegawaiRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
+use App\Imports\PegawaiImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Pegawai;
 use Flash;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -35,8 +39,7 @@ class PegawaiController extends InfyOmBaseController
 
         $this->pegawaiRepository->pushCriteria(new RequestCriteria($request));
         $pegawais = $this->pegawaiRepository->all();
-        return view('pegawais.index')
-            ->with('pegawais', $pegawais);
+        return view('pegawais.index')->with('pegawais', $pegawais);
     }
 
     /**
@@ -58,9 +61,20 @@ class PegawaiController extends InfyOmBaseController
      */
     public function store(CreatePegawaiRequest $request)
     {
-        $input = $request->all();
 
-        $pegawai = $this->pegawaiRepository->create($input);
+        $pegawai = $this->pegawaiRepository->create($request->all());
+
+       //upload image
+       if ($file = $request->file('foto')) {
+            $extension = $file->extension()?: 'png';
+            $destinationPath = public_path() . '/uploads/';
+            $safeName = str_random(10) . '.' . $extension;
+            $file->move($destinationPath, $safeName);
+            $request['foto'] = $safeName;
+            $pegawai->foto = $safeName;
+        }
+
+        $pegawai->save();
 
         Flash::success('Pegawai saved successfully.');
 
@@ -119,7 +133,6 @@ class PegawaiController extends InfyOmBaseController
     {
         $pegawai = $this->pegawaiRepository->findWithoutFail($id);
 
-        
 
         if (empty($pegawai)) {
             Flash::error('Pegawai not found');
@@ -127,7 +140,25 @@ class PegawaiController extends InfyOmBaseController
             return redirect(route('pegawais.index'));
         }
 
-        $pegawai = $this->pegawaiRepository->update($request->all(), $id);
+
+        $pegawai->update($request->except('foto'));
+
+        // is new image uploaded?
+        if ($file = $request->file('foto')) {
+            $extension = $file->extension()?: 'png';
+            $destinationPath = public_path() . '/uploads/';
+            $safeName = str_random(10) . '.' . $extension;
+            $file->move($destinationPath, $safeName);
+            //delete old pic if exists
+            if (File::exists($destinationPath . $pegawai->foto)) {
+                File::delete($destinationPath . $pegawai->foto);
+            }
+            //save new file path into db
+            $pegawai->foto = $safeName;
+        }
+
+        //save record
+        $pegawai->save();
 
         Flash::success('Pegawai updated successfully.');
 
@@ -157,6 +188,32 @@ class PegawaiController extends InfyOmBaseController
            // Redirect to the group management page
            return redirect(route('pegawais.index'))->with('success', Lang::get('message.success.delete'));
 
+       }
+
+       public function downloadExcel($type)
+       {
+           return response()->download(base_path('resources/excel-templates/template-pegawai.xlsx'));
+       }
+
+       public function importPegawai(Request $request)
+       {
+           $this->validate($request, [
+               'import_file' => 'required|mimes:xls,xlsx'
+           ]);
+
+           if ($request->hasFile('import_file')) {
+               $path = $request->file('import_file')->getRealPath();
+               Excel::import(new PegawaiImport, request()->file('import_file'));
+
+               return back()->with('success', 'Inserted Data Pegawai Successfully');
+
+           }
+           return back()->with('error', 'Please Check your file, Something is wrong there.');
+       }
+
+       public function exportPegawai()
+       {
+           return Excel::download(new PegawaiExport, 'daftar-pegawai.xlsx');
        }
 
 }

@@ -43,7 +43,13 @@
 <!-- Foto Field -->
 <div class="form-group">
     {!! Form::label('foto', 'Foto:') !!}
-    <p>{!! $pegawai->foto !!}</p>
+    <div class="foto" style="width: 70px; height:70px;">
+        <?php if ($pegawai->foto != null) { ?>
+            <img  style="width: 100%; height:100%; object-fit:cover" src="{{ asset('uploads/'.$pegawai->foto) }}"/>
+        <?php } else { ?>
+            <img  style="width: 100%; height:100%; object-fit:cover" src="{{ asset('uploads/no_avatar.jpg') }}"/>
+        <?php } ?>
+    </div>
     <hr>
 </div>
 

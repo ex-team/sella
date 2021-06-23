@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PerangkatExport;
 use App\Http\Requests;
 use App\Http\Requests\CreatePerangkatRequest;
 use App\Http\Requests\UpdatePerangkatRequest;
 use App\Repositories\PerangkatRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
+use App\Imports\PerangkatImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Perangkat;
 use Flash;
+use Maatwebsite\Excel\Facades\Excel;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -119,7 +122,7 @@ class PerangkatController extends InfyOmBaseController
     {
         $perangkat = $this->perangkatRepository->findWithoutFail($id);
 
-        
+
 
         if (empty($perangkat)) {
             Flash::error('Perangkat not found');
@@ -159,4 +162,30 @@ class PerangkatController extends InfyOmBaseController
 
        }
 
+
+       public function downloadExcel($type)
+       {
+           return response()->download(base_path('resources/excel-templates/template-perangkat.xlsx'));
+       }
+
+       public function importPerangkat(Request $request)
+       {
+           $this->validate($request, [
+               'import_file' => 'required|mimes:xls,xlsx'
+           ]);
+
+           if ($request->hasFile('import_file')) {
+               $path = $request->file('import_file')->getRealPath();
+               Excel::import(new PerangkatImport, request()->file('import_file'));
+
+               return back()->with('success', 'Inserted Data Perangkat Successfully');
+
+           }
+           return back()->with('error', 'Please Check your file, Something is wrong there.');
+       }
+
+       public function exportPerangkat()
+       {
+           return Excel::download(new PerangkatExport, 'daftar-perangkat.xlsx');
+       }
 }

@@ -1,10 +1,3 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $peminjaman->id !!}</p>
-    <hr>
-</div>
-
 <!-- Tgl Peminjaman Field -->
 <div class="form-group">
     {!! Form::label('tgl_peminjaman', 'Tgl Peminjaman:') !!}

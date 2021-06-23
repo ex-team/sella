@@ -29,7 +29,7 @@ Pegawai
                 </h4></div>
             <br />
             <div class="card-body">
-            {!! Form::open(['route' => 'pegawais.store']) !!}
+            {!! Form::open(['route' => 'pegawais.store', 'method' => 'post', 'enctype'=>'multipart/form-data','files'=> true]) !!}
 
                 @include('pegawais.fields')
 

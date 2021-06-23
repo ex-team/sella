@@ -10,6 +10,7 @@ use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\Peminjaman;
+use App\Models\Perangkat;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
@@ -33,10 +34,13 @@ class PeminjamanController extends InfyOmBaseController
     public function index(Request $request)
     {
 
-        $this->peminjamanRepository->pushCriteria(new RequestCriteria($request));
-        $peminjaman = $this->peminjamanRepository->all();
-        return view('peminjaman.index')
-            ->with('peminjaman', $peminjaman);
+        // $this->peminjamanRepository->pushCriteria(new RequestCriteria($request));
+        // $peminjaman = $this->peminjamanRepository->all();
+
+        $peminjaman = Peminjaman::leftJoin('perangkat', 'peminjaman.perangkat_id', '=', 'perangkat.id')
+        ->get(['peminjaman.id as id', 'id_perangkat', 'uraian_perangkat', 'tgl_peminjaman', 'tgl_pengembalian', 'keperluan']);
+
+        return view('peminjaman.index')->with('peminjaman', $peminjaman);
     }
 
     /**
@@ -46,7 +50,8 @@ class PeminjamanController extends InfyOmBaseController
      */
     public function create()
     {
-        return view('peminjaman.create');
+        $perangkat = Perangkat::orderBy('id', 'desc')->get();
+        return view('peminjaman.create', ['perangkat' => $perangkat]);
     }
 
     /**
@@ -84,7 +89,7 @@ class PeminjamanController extends InfyOmBaseController
             return redirect(route('peminjaman.index'));
         }
 
-        return view('peminjaman.show')->with('peminjaman', $peminjaman);
+        return view('peminjaman.show', ['peminjaman' => $peminjaman]);
     }
 
     /**
@@ -97,6 +102,7 @@ class PeminjamanController extends InfyOmBaseController
     public function edit($id)
     {
         $peminjaman = $this->peminjamanRepository->findWithoutFail($id);
+        $perangkat = Perangkat::orderBy('id', 'desc')->get();
 
         if (empty($peminjaman)) {
             Flash::error('Peminjaman not found');
@@ -104,7 +110,7 @@ class PeminjamanController extends InfyOmBaseController
             return redirect(route('peminjaman.index'));
         }
 
-        return view('peminjaman.edit')->with('peminjaman', $peminjaman);
+        return view('peminjaman.edit', ['peminjaman' => $peminjaman, 'perangkat' => $perangkat]);
     }
 
     /**
@@ -119,7 +125,7 @@ class PeminjamanController extends InfyOmBaseController
     {
         $peminjaman = $this->peminjamanRepository->findWithoutFail($id);
 
-        
+
 
         if (empty($peminjaman)) {
             Flash::error('Peminjaman not found');

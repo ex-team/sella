@@ -1,6 +1,6 @@
 <!-- Id Perangkat Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('id_perangkat', 'Id Perangkat:') !!}
+    {!! Form::label('id_perangkat', 'ID Perangkat:') !!}
     {!! Form::number('id_perangkat', null, ['class' => 'form-control']) !!}
 </div>
 

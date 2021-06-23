@@ -31,7 +31,8 @@
 <!-- Foto Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('foto', 'Foto:') !!}
-    {!! Form::text('foto', null, ['class' => 'form-control']) !!}
+    {{-- {!! Form::text('foto', null, ['class' => 'form-control']) !!} --}}
+    {!! Form::file('foto', null, ['class' => 'form-control','id'=>'foto','accept'=>'image/*']) !!}
 </div>
 
 <!-- Submit Field -->

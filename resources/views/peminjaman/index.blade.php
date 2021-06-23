@@ -16,7 +16,7 @@ Peminjaman
             </a>
         </li>
         <li>Peminjaman</li>
-        <li class="active">Peminjaman List</li>
+        <li class="active">Daftar Peminjaman</li>
     </ol>
 </section>
 
@@ -27,16 +27,16 @@ Peminjaman
         <div class="card panel-primary ">
             <div class="card-heading clearfix">
                 <h4 class="card-title float-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
-                    Peminjaman List
+                    Daftar Peminjaman
                 </h4>
                 <div class="float-right">
-                    <a href="{{ route('peminjaman.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
+                    <a href="{{ route('peminjaman.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus fa-fw"></i> @lang('button.create')</a>
                 </div>
             </div>
             <br />
             <div class="card-body table-responsive">
                  @include('peminjaman.table')
-                 
+
             </div>
         </div>
         </div>

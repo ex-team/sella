@@ -4,34 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        @section('title')
-            | Josh Admin Template
+        @section('title') | Admin Dashboard
         @show
     </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-    {{--CSRF Token--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- global css -->
-
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"/>
-    <!-- font Awesome -->
-
-    <!-- end of global css -->
-    <!--page level css-->
     @yield('header_styles')
-            <!--end of page level css-->
+
 
 <body class="skin-josh">
 <header class="header">
     <a href="{{ route('dashboard') }}" class="logo">
-        <img src="{{ asset('img/logo.png') }}" alt="logo">
+        <h2 style="padding: 10px 0; color: #fff;">DASHBOARD</h2>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
@@ -42,8 +27,6 @@
         </div>
         <div class="navbar-right toggle">
             <ul class="nav navbar-nav  list-inline">
-                @include('layouts._messages')
-                @include('layouts._notifications')
                 <li class=" nav-item dropdown user user-menu">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                         @if(Sentinel::getUser()->pic)
@@ -132,34 +115,6 @@
     <aside class="left-side ">
         <section class="sidebar ">
             <div class="page-sidebar  sidebar-nav">
-                <div class="nav_icons">
-                    <ul class="sidebar_threeicons">
-                        <li>
-                            <a href="{{ URL::to('deleted_users') }}">
-                                <i class="livicon" data-name="user-remove" title="Deleted users" data-loop="true"
-                                   data-color="#418BCA" data-hc="#418BCA" data-s="25"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('dashboard') }}">
-                                <i class="livicon" data-name="dashboard" title="Dashboard" data-loop="true"
-                                   data-color="#e9573f" data-hc="#e9573f" data-s="25"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ URL::to('roles') }}">
-                                <i class="livicon" data-name="users" title="Roles" data-loop="true"
-                                   data-color="#F89A14" data-hc="#F89A14" data-s="25"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ URL::to('users') }}">
-                                <i class="livicon" data-name="user" title="Users" data-loop="true"
-                                   data-color="#6CC66C" data-hc="#6CC66C" data-s="25"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
                 <div class="clearfix"></div>
                 <!-- BEGIN SIDEBAR MENU -->
                 @include('layouts._left_menu')
@@ -174,7 +129,7 @@
         @include('notifications')
         </div>
 
-                <!-- Content -->
+        <!-- Content -->
         @yield('content')
 
     </aside>

@@ -2,7 +2,7 @@
     <a href="{!! route('pegawais.index') !!}">
     <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="home" data-size="18"
                data-loop="true"></i>
-               Pegawais
+               Pegawai
     </a>
 </li>
 
@@ -10,7 +10,7 @@
     <a href="{!! route('perangkats.index') !!}">
     <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="home" data-size="18"
                data-loop="true"></i>
-               Perangkats
+               Perangkat
     </a>
 </li>
 
