@@ -74,6 +74,21 @@
                             @endif
                             <p class="topprofiletext">{{ Sentinel::getUser()->first_name }} {{ Sentinel::getUser()->last_name }}</p>
                         </li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{{ URL::route('lockscreen',Sentinel::getUser()->id) }}">
+                                    <i class="livicon" data-name="lock" data-size="16" data-c="#555555" data-hc="#555555" data-loop="true"></i>
+                                    Lock
+                                </a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{{ URL::to('logout') }}">
+                                    <i class="livicon" data-name="sign-out" data-s="18"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
                     </ul>
                 </li>
             </ul>
