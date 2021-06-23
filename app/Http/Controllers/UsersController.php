@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Country;
 use App\Http\Controllers\JoshController;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
@@ -17,6 +16,7 @@ use URL;
 use View;
 use Yajra\DataTables\DataTables;
 use App\Mail\Restore;
+use App\Models\Country;
 
 class UsersController extends JoshController
 {
